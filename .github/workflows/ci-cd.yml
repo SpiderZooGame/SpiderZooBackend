@@ -3,6 +3,8 @@ name: CI/CD
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'terraform/**'
 
 permissions:
   contents: read
