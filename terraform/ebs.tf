@@ -74,7 +74,7 @@ resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app-env" {
   setting {
     namespace = "aws:ec2:instances"
     name      = "InstanceTypes"
-    value     = ["t2.micro", "t3.micro"]
+    value     = "t2.micro,t3.micro"
   }
 
   setting {
