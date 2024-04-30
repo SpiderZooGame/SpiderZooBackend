@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  pull_request:
+    types: [ opened, synchronize ]
+  workflow_call:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test: 
+    name: Terraform Test
+    uses: ./.github/workflows/terraform_tests.yml
+    secrets: inherit
