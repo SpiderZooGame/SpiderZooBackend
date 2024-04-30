@@ -40,6 +40,8 @@ resource "aws_db_instance" "virtual_spider_zoo_db" {
     publicly_accessible         = true
     skip_final_snapshot         = true
     manage_master_user_password = true
+    multi_az                    = false
+    backup_retention_period = 0
 
     tags = var.common_tags
 }
