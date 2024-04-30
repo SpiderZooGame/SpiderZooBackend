@@ -32,7 +32,7 @@ resource "aws_db_instance" "virtual_spider_zoo_db" {
   allocated_storage           = 20
   storage_type                = "gp2"
   engine                      = "postgres"
-  engine_version              = "16.1"
+  engine_version              = "12.5"
   instance_class              = "db.t3.micro"
   db_subnet_group_name        = aws_db_subnet_group.db_subnet_group.name
   vpc_security_group_ids      = [aws_security_group.allow_tcp.id]
@@ -42,8 +42,6 @@ resource "aws_db_instance" "virtual_spider_zoo_db" {
   manage_master_user_password = true
   multi_az                    = false
   backup_retention_period     = 0
-  kms_key_id                  = var.kms_key_id
-  storage_encrypted           = true
 
   tags = var.common_tags
 }
