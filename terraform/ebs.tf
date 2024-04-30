@@ -68,7 +68,7 @@ resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app-env" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = aws_subnet.public_subnets[*].id
+    value     = "${aws_subnet.public_subnets[0].id},${aws_subnet.public_subnets[1].id}"
   }
 
   setting {
