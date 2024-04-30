@@ -24,12 +24,6 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ secrets.AWS_REGION }}
-          managed-session-policies: |
-            arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
-            arn:aws:iam::aws:policy/AmazonVPCFullAccess
-            arn:aws:iam::aws:policy/AmazonRDSFullAccess
-            arn:aws:iam::aws:policy/AmazonEC2FullAccess
-            arn:aws:iam::aws:policy/AdministratorAccess-AWSElasticBeanstalk
 
       - name: Get tfvars file
         working-directory: ${{ env.WORKING_DIRECTORY }}

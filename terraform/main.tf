@@ -58,7 +58,7 @@ resource "aws_route_table_association" "default_subnets" {
 resource "aws_security_group" "allow_tcp" {
     name        = "${var.db_name}-allow-tcp"
     description = "Allow TCP inbound traffic and all outbound traffic"
-    vpc_id      = aws_vpc.db.id
+    vpc_id      = aws_vpc.default_vpc.id
 
     tags = var.common_tags
 }
