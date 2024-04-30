@@ -43,6 +43,7 @@ resource "aws_db_instance" "virtual_spider_zoo_db" {
   multi_az                    = false
   backup_retention_period     = 0
   kms_key_id                  = var.kms_key_id
+  storage_encrypted           = true
 
   tags = var.common_tags
 }
