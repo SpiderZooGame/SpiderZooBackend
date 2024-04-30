@@ -38,7 +38,7 @@ resource "aws_db_instance" "virtual_spider_zoo_db" {
     vpc_security_group_ids      = [aws_security_group.allow_tcp.id]
     maintenance_window          = "Mon:00:00-Mon:01:00"
     publicly_accessible         = true
-    skip_final_snapshot         = false
+    skip_final_snapshot         = true
     apply_immediately           = true
     copy_tags_to_snapshot       = true
     manage_master_user_password = true
