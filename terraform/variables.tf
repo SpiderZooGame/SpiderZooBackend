@@ -15,11 +15,6 @@ variable "db_name" {
   description = "The name of the database"
 }
 
-variable "kms_key_id" {
-  type        = string
-  description = "The arn of the KMS key"
-}
-
 variable "vpc_name" {
   type        = string
   description = "The name of the VPC"
