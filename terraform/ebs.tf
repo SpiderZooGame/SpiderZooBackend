@@ -23,12 +23,6 @@ resource "aws_iam_role" "aws_ebs_service_role" {
   tags               = var.common_tags
 }
 
-resource "aws_iam_instance_profile" "aws_ebs_profile" {
-  name = "aws-elasticbeanstalk-ec2-role"
-
-  role = aws_iam_role.aws_ebs_service_role.name
-}
-
 # Attaching policies to role
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWebTier" {
   role       = aws_iam_role.aws_ebs_service_role.name
@@ -45,6 +39,12 @@ resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkMulticontainerDock
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
 
+resource "aws_iam_instance_profile" "aws_ebs_profile" {
+  name = "aws-elasticbeanstalk-ec2-role"
+
+  role = aws_iam_role.aws_ebs_service_role.name
+}
+
 # Environment and application setup
 module "key_pair" {
   source             = "terraform-aws-modules/key-pair/aws"
@@ -56,12 +56,6 @@ resource "aws_elastic_beanstalk_application" "virtual_spider_zoo_app" {
   name        = "virtual-spider-zoo-app"
   description = "Virtual Spider Zoo App"
   tags        = var.common_tags
-}
-
-resource "aws_iam_instance_profile" "tf-ellb" {
-  name = "aws-elasticbeanstalk-ec2-role" # use the same name as the default instance profile
-
-  role = aws_iam_role.role-elb.name
 }
 
 resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
