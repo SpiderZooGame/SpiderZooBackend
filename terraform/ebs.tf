@@ -39,6 +39,12 @@ resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkMulticontainerDock
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
 
+resource "aws_iam_instance_profile" "aws_ebs_profile" {
+  name = "aws-elasticbeanstalk-ec2-role"
+
+  role = aws_iam_role.aws_ebs_service_role.name
+}
+
 # Environment and application setup
 module "key_pair" {
   source             = "terraform-aws-modules/key-pair/aws"
@@ -68,7 +74,7 @@ resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = "${aws_subnet.public_subnets[0].id},${aws_subnet.public_subnets[1].id}"
+    value     = join(",", aws_subnet.public_subnets[*].id)
   }
 
   setting {
@@ -94,4 +100,14 @@ resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
     name      = "EC2KeyName"
     value     = module.key_pair.key_pair_name
   }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "IamInstanceProfile"
+    value     = aws_iam_instance_profile.aws_ebs_profile.name
+  }
+}
+
+output "url" {
+  value = aws_elastic_beanstalk_environment.virtual_spider_zoo_app_env.endpoint_url
 }
