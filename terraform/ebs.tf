@@ -53,7 +53,7 @@ resource "aws_elastic_beanstalk_application" "virtual_spider_zoo_app" {
 }
 
 resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
-  name                = "virtual_spider_zoo_app-env"
+  name                = "virtual_spider_zoo_app_env"
   application         = aws_elastic_beanstalk_application.virtual_spider_zoo_app.name
   solution_stack_name = "64bit Amazon Linux 2023 v6.1.3 running Node.js 20"
   cname_prefix        = "virtual_spider_zoo"
