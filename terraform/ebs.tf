@@ -23,6 +23,12 @@ resource "aws_iam_role" "aws_ebs_service_role" {
   tags               = var.common_tags
 }
 
+resource "aws_iam_instance_profile" "aws_ebs_profile" {
+  name = "aws-elasticbeanstalk-ec2-role"
+
+  role = aws_iam_role.aws_ebs_service_role.name
+}
+
 # Attaching policies to role
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWebTier" {
   role       = aws_iam_role.aws_ebs_service_role.name
@@ -52,6 +58,12 @@ resource "aws_elastic_beanstalk_application" "virtual_spider_zoo_app" {
   tags        = var.common_tags
 }
 
+resource "aws_iam_instance_profile" "tf-ellb" {
+  name = "aws-elasticbeanstalk-ec2-role" # use the same name as the default instance profile
+
+  role = aws_iam_role.role-elb.name
+}
+
 resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
   name                = "virtual-spider-zoo-app-env"
   application         = aws_elastic_beanstalk_application.virtual_spider_zoo_app.name
@@ -68,7 +80,7 @@ resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = "${aws_subnet.public_subnets[0].id},${aws_subnet.public_subnets[1].id}"
+    value     = join(",", aws_subnet.public_subnets[*].id)
   }
 
   setting {
@@ -94,4 +106,14 @@ resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
     name      = "EC2KeyName"
     value     = module.key_pair.key_pair_name
   }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "IamInstanceProfile"
+    value     = aws_iam_instance_profile.aws_ebs_profile.name
+  }
+}
+
+output "url" {
+  value = aws_elastic_beanstalk_environment.virtual_spider_zoo_app_env.endpoint_url
 }
