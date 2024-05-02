@@ -71,6 +71,18 @@ resource "aws_elastic_beanstalk_environment" "virtual_spider_zoo_app_env" {
   tags                = var.common_tags
 
   setting {
+    namespace = "aws:ec2:vpc"
+    name      = "VPCId"
+    value     = aws_vpc.default_vpc.id
+  }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "Subnets"
+    value     = join(",", aws_subnet.public_subnets[*].id)
+  }
+
+  setting {
     namespace = "aws:ec2:instances"
     name      = "InstanceTypes"
     value     = "t2.micro,t3.micro"
