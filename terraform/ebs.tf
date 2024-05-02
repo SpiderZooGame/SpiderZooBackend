@@ -39,6 +39,11 @@ resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkMulticontainerDock
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
 
+resource "aws_iam_role_policy_attachment" "AutoScalingFullAccess" {
+  role       = aws_iam_role.aws_ebs_service_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AutoScalingFullAccess"
+}
+
 resource "aws_iam_instance_profile" "aws_ebs_profile" {
   name = "aws-elasticbeanstalk-ec2-role"
 
