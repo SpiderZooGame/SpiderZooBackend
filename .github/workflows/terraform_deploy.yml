@@ -34,14 +34,6 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: make tf_init
 
-      - name: Terraform Validate
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: make tf_validate
-
-      - name: Terraform Plan
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: make tf_plan
-
       - name: Terraform Apply
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: make tf_apply
